@@ -1,18 +1,35 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <form @submit.prevent="autenticacao">
+      <input type="text" v-model="email">
+      <input type="password" v-model="senha">
+      <button type="submit">Entrar</button>
+    </form>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import axios from 'axios'
+const http = axios.create({
+	baseURL: 'http://localhost:3000/'
+})
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  data(){
+    return{
+      email: '',
+      senha: ''
+    }
+  },
+  methods:{
+    async autenticacao(){
+      const resposta = await http.post('cadastro/autenticacao', {
+        email: this.email,
+        senha: this.senha
+      })
+      const token = resposta.data.token
+      localStorage.setItem('token', token)
+      console.log(resposta)
+    }
   }
 }
 </script>
