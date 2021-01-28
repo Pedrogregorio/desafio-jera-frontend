@@ -1,26 +1,22 @@
 <template>  
-    <div>
-      <div class="uk-container">
-        <div class="uk-card uk-card-default uk-padding uk-position-center">
+  <div>
+    <div class="uk-container">
+      <div class="uk-card uk-card-default uk-padding uk-position-center">
           <div v-if="erro" class="uk-alert-danger" uk-alert>
-              <p>{{ msgErro }}</p>
+            <p>{{ msgErro }}</p>
           </div>
-          
           <form @submit.prevent="autenticacao">
             <div class="uk-margin">
-            
-            <input class="uk-input" type="email" v-model="email">
+              <input class="uk-input" type="email" v-model="email">
             </div>
             <div class="uk-margin">
-            
-            <input class="uk-input" type="password" v-model="senha">
+              <input class="uk-input" type="password" v-model="senha">
             </div> 
             <button class="uk-button uk-button-primary" type="submit">Entrar</button>
           </form>
-        </div>
-       
       </div>
     </div>
+  </div>
 </template>
 <script>
 import axios from 'axios'

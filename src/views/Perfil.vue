@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="uk-container">
-            
             <div class="uk-card uk-card-default uk-padding uk-position-center">
                 <div class="uk-margin">
                     <h1>Perfis</h1>

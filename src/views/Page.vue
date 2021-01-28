@@ -1,72 +1,67 @@
 <template>
-<div>
-  <nav class="uk-navbar-container" uk-navbar>
-    <div class="uk-navbar-left">
+  <div>
+    <nav class="uk-navbar-container" uk-navbar>
+      <div class="uk-navbar-left">
         <ul class="uk-navbar-nav">
-            <li class="uk-active"><a href="/lista">Minha Lista</a></li>
+        <li class="uk-active"><a href="/lista">Minha Lista</a></li>
         </ul>
-    </div>
-    <div class="uk-navbar-right">
+      </div>
+      <div class="uk-navbar-right">
         <ul class="uk-navbar-nav">
-            <li class="uk-active"><a href="#">Sair</a></li>
+          <li class="uk-active"><a href="#">Sair</a></li>
         </ul>
-    </div>
-</nav>
-<div class="uk-container">
-  <div class="uk-aling-center"><h1>Filmes Populares</h1></div>
-  <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
-    <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
-        <li v-for="filme in filmes" :key="filme.id">
-          <div class="uk-panel">
-            <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
-              <div class="uk-card uk-card-default"><a @click="salvarLista(filme.id)" class="uk-margin-remove uk-link-heading" style="color:black;">+ Adicionar à lista</a></div>
-              <img :src="urlPost+filme.poster_path" alt="">
-              <div class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-default" style="color:black;">
-                <p class="uk-text-bold"> {{filme.title}} </p>
-                Avaliação: <span class="uk-badge">{{filme.vote_average}}</span>
+      </div>
+    </nav>
+    <div class="uk-container">
+      <div class="uk-aling-center"><h1>Filmes Populares</h1></div>
+      <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
+          <li v-for="filme in filmes" :key="filme.id">
+            <div class="uk-panel">
+              <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+                <div class="uk-card uk-card-default"><a @click="salvarLista(filme.id)" class="uk-margin-remove uk-link-heading" style="color:black;">+ Adicionar à lista</a></div>
+                <img :src="urlPost+filme.poster_path" alt="">
+                <div class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-default" style="color:black;">
+                  <p class="uk-text-bold"> {{filme.title}} </p>
+                  Avaliação: <span class="uk-badge">{{filme.vote_average}}</span>
+                </div>
               </div>
             </div>
+          </li>
+        </ul>
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+      </div>     
+      <hr>
+      <div class="uk-margin"> 
+        <form @submit.prevent="pesquisa">
+          <div class="uk-margin">
+            <input class="uk-input uk-form-width-medium" v-model="txt_pesquisa" type="text" placeholder="Pesquisar Filme">
           </div>
-        </li>
-    </ul>
-    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-</div>     
-<hr>
-   <div class="uk-margin"> 
-      <form @submit.prevent="pesquisa">
-        <div class="uk-margin">
-          <input class="uk-input uk-form-width-medium" v-model="txt_pesquisa" type="text" placeholder="Pesquisar Filme">
+          <button class="uk-button uk-button-primary" type="submit"> Pesquisar </button>
+        </form>
       </div>
-        <button class="uk-button uk-button-primary" type="submit"> Pesquisar </button>
-      </form>
-   </div>
-   
-   <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
-      <div class="uk-text-center" v-for="filmeLista in filmesLista" :key="filmeLista.id">
-        <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
-          
+      <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
+        <div class="uk-text-center" v-for="filmeLista in filmesLista" :key="filmeLista.id">
+          <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
           <div class="uk-card uk-card-default"><a @click="salvarLista(filmeLista.id)" class="uk-margin-remove uk-link-heading" style="color:black;">Adicionar à lista</a></div>
-            <img :src="urlPost+filmeLista.poster_path" alt="">
-            <div class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-default">
-                <p class="uk-text-bold"> {{filmeLista.title}} </p>
-                Avaliação: <span class="uk-badge">{{filmeLista.vote_average}}</span>
-            </div>
+          <img :src="urlPost+filmeLista.poster_path" alt="">
+          <div class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-default">
+            <p class="uk-text-bold"> {{filmeLista.title}} </p>
+            Avaliação: <span class="uk-badge">{{filmeLista.vote_average}}</span>
+          </div>
+          </div>
         </div>
+      </div>
+      <div class="uk-margin uk-flex-center" v-if="paginacao">
+        <ul class="uk-pagination" uk-margin>
+          <li><a href="#"><span uk-pagination-previous></span></a></li>
+          <li v-for="pagina in paginas" :key="pagina"><a @click="pesquisa(pagina)">{{pagina}}</a></li>
+          <li><a href="#"><span uk-pagination-next></span></a></li>
+        </ul>
+      </div>
     </div>
-    
-   </div>
-   <div class="uk-margin uk-flex-center" v-if="paginacao">
-     <ul class="uk-pagination" uk-margin>
-        <li><a href="#"><span uk-pagination-previous></span></a></li>
-        <li v-for="pagina in paginas" :key="pagina"><a @click="pesquisa(pagina)">{{pagina}}</a></li>
-        <li><a href="#"><span uk-pagination-next></span></a></li>
-    </ul>
-   </div>
-   
-   
-</div>
-</div>
+  </div>
 </template>
 <script>
 import axios from 'axios'
