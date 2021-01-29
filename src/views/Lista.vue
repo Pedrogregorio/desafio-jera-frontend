@@ -8,7 +8,7 @@
             </div>
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="#">Sair</a></li>
+                    <li class="uk-active"><a @click="logout()">Sair</a></li>
                 </ul>
             </div>
         </nav>    
@@ -33,10 +33,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
-const http = axios.create({
-	baseURL: 'http://localhost:3000/'
-})
+import User from '../services/index'
 export default {
     data(){
         return{
@@ -45,18 +42,24 @@ export default {
         }
     },
     async created(){
-        try {
-            const resposta = await http.get('page/lista',
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + localStorage.getItem('token')
-                    }
-            })
-            
+        const perfil = await localStorage.getItem('perfil')
+        User.minhaLista(perfil).then(resposta=>{
+            if(resposta.erro){
+                return this.$router.push({ name: 'Login' })
+            }
             this.filmesLista = resposta.data
-            console.log(resposta.data)
-        } catch (error) {
-            console.log(error)
+        })
+    },
+    methods:{
+        async logout(){
+            try {
+                const resposta = await localStorage.removeItem('token')
+                this.$router.push({ name: 'Login' })
+            } catch (error) {
+                
+                return {status: 'Erro'}
+            }
+                
         }
     }
 }
