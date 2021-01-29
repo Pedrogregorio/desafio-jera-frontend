@@ -46,6 +46,13 @@ export default {
             return { erro:true }           
         }
 	},
+	async deletePerfil(id){
+		const resposta = await http.post('page/deletePerfil', {id: id}, {
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			}
+		})
+	},
 	async setPerfil(perfil){
 		try{
 		

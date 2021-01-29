@@ -1,5 +1,12 @@
 <template>
     <div>
+        <nav class="uk-navbar-container" uk-navbar>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a @click="logout()">Sair</a></li>
+                </ul>
+            </div>
+        </nav>   
         <div class="uk-container">
             <div class="uk-card uk-card-default uk-padding uk-position-center">
                 <div v-if="erro" class="uk-alert-danger" uk-alert>
@@ -8,7 +15,7 @@
                 <div class="uk-margin">
                     <h1>Perfis</h1>
                 </div>
-                <h3 v-for="Perfil in Perfils" :key="Perfil.id"><a @click="perfil(Perfil._id)">{{ Perfil.nome }}</a></h3>
+                <h3 v-for="Perfil in Perfils" :key="Perfil.id"><a @click="perfil(Perfil._id)">{{ Perfil.nome }}</a> <a @click="deletePerfil(Perfil._id)"> X </a></h3>
 
                 <div class="uk-margin">
                     <a class="uk-h4" @click="show()"> + Criar Perfil </a>
@@ -37,15 +44,17 @@ export default {
         }
     },
     async created(){
-        User.listarPerfil().then(resposta=>{
-            console.log(resposta)
-            if(resposta.erro){
-                return this.$router.push({ name: 'Login' })
-            }
-            this.Perfils = resposta.data
-        })
+        this.listar()
     },
     methods:{
+        listar(){
+            User.listarPerfil().then(resposta=>{
+                if(resposta.erro){
+                    return this.$router.push({ name: 'Login' })
+                }
+                this.Perfils = resposta.data
+            })
+        },
         show(){
             this.Add = !this.Add
         },
@@ -56,12 +65,16 @@ export default {
         },
         async adicionaPerfil(){
             User.adicionaPerfil(this.nome).then(resposta=>{
-                console.log(resposta)
                 if (resposta.data.erro) {
                     this.erro = !this.erro
                     return this.msgErro = resposta.data.erro
                 }
-                
+                this.listar()
+            })
+        },
+        async deletePerfil(id){
+            User.deletePerfil(id).then(resposta=>{
+                this.listar()
             })
         }
     }

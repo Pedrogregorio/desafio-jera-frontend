@@ -41,7 +41,6 @@ export default {
     methods:{
         cadastrar(){
             User.cadastrar(this.email, this.senha, this.nome, this.nascimento).then(resposta=>{
-                console.log(resposta)
                 if(resposta.data.erro){
                     this.erro = true 
                     return this.msgErro = resposta.data.erro

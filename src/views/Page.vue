@@ -8,6 +8,8 @@
       </div>
       <div class="uk-navbar-right">
         <ul class="uk-navbar-nav">
+          
+          <li class="uk-active"><a href="/perfil">Perfil</a></li>
           <li class="uk-active"><a @click="logout()">Sair</a></li>
         </ul>
       </div>
