@@ -4,14 +4,16 @@
   "private": true,
   "scripts": {
     "postinstall": "npm run build",
-    "start": "npm run serve",
-    "dev":"vue-cli-service serve",
+    "start": "node server.js",
+    "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "express": "^4.17.1",
     "register-service-worker": "^1.7.1",
+    "serve-static": "^1.14.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
   },
