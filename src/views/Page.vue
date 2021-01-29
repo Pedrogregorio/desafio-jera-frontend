@@ -8,7 +8,7 @@
       </div>
       <div class="uk-navbar-right">
         <ul class="uk-navbar-nav">
-          <li class="uk-active"><a href="#">Sair</a></li>
+          <li class="uk-active"><a @click="logout()">Sair</a></li>
         </ul>
       </div>
     </nav>
@@ -64,11 +64,7 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
-const http = axios.create({
-	baseURL: 'http://localhost:3000/'
-})
-
+import User from '../services/index'
 export default {
   data(){
     return{
@@ -83,58 +79,49 @@ export default {
     }
   },
   async created(){
-    try{
-      const resposta = await http.get('page/inicio', {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      })
+    User.listarPop().then(resposta=>{
+      if(resposta.erro){
+        return this.$router.push({ name: 'Login' })
+      }
       this.filmes = resposta.data.results
-    } catch (err){
-      this.$router.push({ name: 'Home' })
-    }
+    }) 
+    
   },
   methods:{
-    async salvarLista(id){
-      try {
-        const resposta = await http.post('page/salvando', {filmes: id}, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
-        })
+    async salvarLista(id_filme){
+      const perfil = await localStorage.getItem('perfil')
+      User.salvarLista(id_filme, perfil).then(resposta=>{
         if(resposta.data.erro){
           return UIkit.notification({
             message: resposta.data.erro,
             pos: 'top-center',
             status: 'danger',
             timeout: 5000
-        });  
+          });  
         }
         UIkit.notification({
-            message: 'Filme Salvo na Lista',
-            pos: 'top-center',
-            status: 'success',
-            timeout: 5000
-        });  
+          message: 'Filme Salvo na Lista',
+          pos: 'top-center',
+          status: 'success',
+          timeout: 5000
+        });
+      })
+    },
+    async logout(){
+      try {
+        const resposta = await localStorage.removeItem('token')
+        this.$router.push({ name: 'Login' })
       } catch (error) {
-        console.log(error)
+        
+        return {status: 'Erro'}
       }
-      
+        
     },
     async pesquisa(pagina){
-      try {
-       const resposta = await http.post('page/buscarFilmes', {pesquisa: this.txt_pesquisa, pagina: pagina}, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-          
-        }
-      })
-        console.log(resposta)
+      User.pesquisa(this.txt_pesquisa, pagina).then(resposta=>{
         this.filmesLista = resposta.data
         this.paginacao = true
-      } catch (error) {
-        this.msgErro = "Erro"
-      }
+      })
       
     }
   }
