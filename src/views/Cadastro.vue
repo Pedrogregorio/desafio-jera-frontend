@@ -8,15 +8,16 @@
                 </div>
                 <form @submit.prevent="cadastrar">
                     <div class="uk-margin">
-                        <input class="uk-input" v-model="email" type="email">
+                        <input class="uk-input" placeholder="Email" v-model="email" type="email">
                     </div>
                     <div class="uk-margin">
-                        <input class="uk-input" v-model="senha" type="password">
+                        <input class="uk-input" placeholder="Senha" v-model="senha" type="password">
                     </div>
                     <div class="uk-margin">
-                        <input class="uk-input" v-model="nome" type="text">
+                        <input class="uk-input" placeholder="Nome" v-model="nome" type="text">
                     </div>
                     <div class="uk-margin">
+                        <label class="uk-label">Data de nascimento:</label>
                         <input class="uk-input" v-model="nascimento" type="date">
                     </div>
                     <button class="uk-button uk-button-primary" type="submit">Cadastrar</button>

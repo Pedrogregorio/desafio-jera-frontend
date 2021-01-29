@@ -55,6 +55,16 @@ export default {
                 this.Perfils = resposta.data
             })
         },
+        async logout(){
+            try {
+                const resposta = await localStorage.removeItem('token')
+                this.$router.push({ name: 'Login' })
+            } catch (error) {
+                
+                return {status: 'Erro'}
+            }
+                
+        },
         show(){
             this.Add = !this.Add
         },
