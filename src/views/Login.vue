@@ -2,6 +2,7 @@
   <div>
     <div class="uk-container">
       <div class="uk-card uk-card-default uk-padding uk-position-center">
+        <p class="uk-h2 uk-text-bold" style="color: green;">Desafio Jera</p>
           <div v-if="erro" class="uk-alert-danger" uk-alert>
             <p>{{ msgErro }}</p>
           </div>
@@ -12,17 +13,18 @@
             <div class="uk-margin">
               <input class="uk-input" type="password" v-model="senha">
             </div> 
-            <button class="uk-button uk-button-primary" type="submit">Entrar</button>
+            <div class="uk-margin">
+              <button class="uk-button uk-button-primary" type="submit">Entrar</button>
+            
+            </div>
+            <a href="/cadastro">Cadastrar</a>
           </form>
       </div>
     </div>
   </div>
 </template>
 <script>
-import axios from 'axios'
-const http = axios.create({
-	baseURL: 'http://localhost:3000/'
-})
+import User from '../services/index'
 export default {
   data(){
     return{
@@ -33,30 +35,20 @@ export default {
     }
   },
   methods:{
-    async autenticacao(){
-      try {
-        const resposta = await http.post('cadastro/autenticacao', {
-          email: this.email,
-          senha: this.senha
-        })
-        console.log(resposta)
-        if(resposta.data.erro){
+    autenticacao(){
+      User.autenticacao(this.email, this.senha).then(res=>{
+        console.log(res)
+        if(res.data.erro){
           this.erro = true 
-          return this.msgErro = resposta.data.erro
+          return this.msgErro = res.data.erro
         }
-        const token = resposta.data.token
-        
-        this.msgErro = ''
-        
-        localStorage.setItem('token', token)
-
-        this.$router.push({ name: 'Perfil' })
-
-      } catch (error) {
-        this.msgErro = 'Usuario ou Senha incorretos'
-      }
-      
-    },
+        if(res.erro){
+          return this.msgErro = 'Email Ou Senha Invalidos'
+        }
+        this.$router.push({ name: 'Perfil' }) 
+      })
+    }
+   
   }
 }
 </script>
