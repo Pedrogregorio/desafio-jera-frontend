@@ -2,6 +2,7 @@
     <div>
         <div class="uk-container">
             <div class="uk-card uk-card-default uk-padding uk-position-center">
+                <p class="uk-h2 uk-text-bold" style="color: green;">Desafio Jera</p>
                 <div v-if="erro" class="uk-alert-danger" uk-alert>
                     <p>{{ msgErro }}</p>
                 </div>
@@ -25,10 +26,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
-const http = axios.create({
-	baseURL: 'http://localhost:3000/'
-})
+import User from '../services/index'
 export default {
     data(){
         return{
@@ -41,23 +39,15 @@ export default {
         }
     },
     methods:{
-        async cadastrar(){
-            try {
-                const resposta = await http.post('cadastro/registro', {
-                    email: this.email,
-                    senha: this.senha,
-                    nome: this.nome,
-                    nascimento: this.nascimento,
-                })
+        cadastrar(){
+            User.cadastrar(this.email, this.senha, this.nome, this.nascimento).then(resposta=>{
+                console.log(resposta)
                 if(resposta.data.erro){
                     this.erro = true 
                     return this.msgErro = resposta.data.erro
                 }
                 this.$router.push({ name: 'Login' })
-            } catch (error) {
-                this.msgErro = 'Cadastro nao efetuado'
-            }
-            
+            })
         }
     }
 }
