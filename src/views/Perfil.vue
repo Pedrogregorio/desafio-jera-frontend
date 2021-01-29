@@ -84,6 +84,10 @@ export default {
         },
         async deletePerfil(id){
             User.deletePerfil(id).then(resposta=>{
+                if (resposta.data.erro) {
+                    this.erro = !this.erro
+                    return this.msgErro = resposta.data.erro
+                }
                 this.listar()
             })
         }
