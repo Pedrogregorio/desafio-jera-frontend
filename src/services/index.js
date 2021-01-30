@@ -1,7 +1,7 @@
 import axios from 'axios'
 const http = axios.create({
-	// baseURL: 'http://localhost:3000/'
-	baseURL: 'https://desafio-jera-back.herokuapp.com/'
+	baseURL: 'http://localhost:3000/'
+	// baseURL: 'https://desafio-jera-back.herokuapp.com/'
 })
 
 export default {
@@ -72,6 +72,18 @@ export default {
 			return resposta
 		  } catch (erro){
 			return { erro:true }
+		  }
+	},
+	async adicionaAssistido(perfil, filme){
+		try {
+			const resposta = await http.post('page/assistido', {filmes: filme, perfil: perfil}, {
+			  headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			  }
+			})
+			return resposta  
+		  } catch (error) {
+			  return { erro:true }
 		  }
 	},
 	async salvarLista(id_filme, id_perfil){

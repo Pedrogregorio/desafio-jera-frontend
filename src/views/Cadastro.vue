@@ -8,13 +8,13 @@
                 </div>
                 <form @submit.prevent="cadastrar">
                     <div class="uk-margin">
-                        <input class="uk-input" placeholder="Email" v-model="email" type="email">
+                        <input class="uk-input" placeholder="Email" v-model="email" type="email" required>
                     </div>
                     <div class="uk-margin">
-                        <input class="uk-input" placeholder="Senha" v-model="senha" type="password">
+                        <input class="uk-input" placeholder="Senha" v-model="senha" type="password" required>
                     </div>
                     <div class="uk-margin">
-                        <input class="uk-input" placeholder="Nome" v-model="nome" type="text">
+                        <input class="uk-input" placeholder="Nome" v-model="nome" type="text" required>
                     </div>
                     <div class="uk-margin">
                         <label class="uk-label">Data de nascimento:</label>

@@ -8,10 +8,10 @@
           </div>
           <form @submit.prevent="autenticacao">
             <div class="uk-margin">
-              <input class="uk-input" placeholder="Email" type="email" v-model="email">
+              <input class="uk-input" placeholder="Email" type="email" v-model="email" required>
             </div>
             <div class="uk-margin">
-              <input class="uk-input" type="password" placeholder="Senha" v-model="senha">
+              <input class="uk-input" type="password" placeholder="Senha" v-model="senha" required>
             </div> 
             <div class="uk-margin">
               <button class="uk-button uk-button-primary" type="submit">Entrar</button>
