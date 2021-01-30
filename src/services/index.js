@@ -1,7 +1,7 @@
 import axios from 'axios'
 const http = axios.create({
-	baseURL: 'http://localhost:3000/'
-	// baseURL: 'https://desafio-jera-back.herokuapp.com/'
+	// baseURL: 'http://localhost:3000/'
+	baseURL: 'https://desafio-jera-back.herokuapp.com/'
 })
 
 export default {

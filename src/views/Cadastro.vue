@@ -46,6 +46,7 @@ export default {
                     this.erro = true 
                     return this.msgErro = resposta.data.erro
                 }
+                alert('Cadastrado com Sucesso')
                 this.$router.push({ name: 'Login' })
             })
         }
