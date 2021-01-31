@@ -1,11 +1,11 @@
-# jera_app
+# Desafio Jera
 
-## Project setup
+## Instalar as dependências
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Rodar o projeto Local
 ```
 npm run serve
 ```
@@ -17,3 +17,6 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# Hospedado:
+##: https://desafio-jera-front.herokuapp.com/
