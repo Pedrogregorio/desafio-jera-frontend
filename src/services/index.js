@@ -1,7 +1,7 @@
 import axios from 'axios'
 const http = axios.create({
-	// baseURL: 'http://localhost:3000/'
-	baseURL: 'https://desafio-jera-back.herokuapp.com/'
+	baseURL: 'http://localhost:3000/'
+	// baseURL: 'https://desafio-jera-back.herokuapp.com/'
 })
 
 export default {
@@ -46,11 +46,12 @@ export default {
             return { erro:true }           
         }
 	},
-	async deletePerfil(id){
-		const resposta = await http.post('page/deletePerfil', {id: id}, {
+	deletePerfil(id){
+		return http.delete('page/deletePerfil', {
 			headers: {
 				Authorization: 'Bearer ' + localStorage.getItem('token')
-			}
+			},
+			data:{id: id}
 		})
 	},
 	async setPerfil(perfil){
@@ -74,17 +75,13 @@ export default {
 			return { erro:true }
 		  }
 	},
-	async adicionaAssistido(perfil, filme){
-		try {
-			const resposta = await http.post('page/assistido', {filmes: filme, perfil: perfil}, {
+	adicionaAssistido(perfil, filme){
+		return http.put('page/assistido', {filmes: filme, perfil: perfil}, {
 			  headers: {
 				Authorization: 'Bearer ' + localStorage.getItem('token')
 			  }
 			})
-			return resposta  
-		  } catch (error) {
-			  return { erro:true }
-		  }
+			
 	},
 	async salvarLista(id_filme, id_perfil){
 		try {

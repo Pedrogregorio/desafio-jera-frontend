@@ -15,7 +15,7 @@
                 <div class="uk-margin">
                     <h1>Perfis</h1>
                 </div>
-                <h3 v-for="Perfil in Perfils" :key="Perfil.id"><a @click="perfil(Perfil._id)">{{ Perfil.nome }}</a> <a @click="deletePerfil(Perfil._id)"> X </a></h3>
+                <h3 v-for="Perfil in Perfils" :key="Perfil.id"><a @click="perfil(Perfil._id)">{{ Perfil.nome }}</a> <button @click="deletePerfil(Perfil._id)"> X </button></h3>
 
                 <div class="uk-margin">
                     <a class="uk-h4" @click="show()"> + Criar Perfil </a>
@@ -79,16 +79,15 @@ export default {
                     this.erro = !this.erro
                     return this.msgErro = resposta.data.erro
                 }
+                this.nome = ''
                 this.listar()
             })
         },
-        async deletePerfil(id){
+        deletePerfil(id){
             User.deletePerfil(id).then(resposta=>{
-                if (resposta.data.erro) {
-                    this.erro = !this.erro
-                    return this.msgErro = resposta.data.erro
-                }
                 this.listar()
+            }).catch(e=>{
+                console.log(e)
             })
         }
     }

@@ -53,18 +53,15 @@ export default {
             if(resposta.erro){
                 return this.$router.push({ name: 'Login' })
             }
-            if(resposta.data.assistido){
-                console.log('Ok')
-            }
-            console.log(resposta)
             this.filmesLista = resposta.data
         })
         },
-        async adicionaAssistido(id_filme){
+        adicionaAssistido(id_filme){
             const perfil = localStorage.getItem('perfil')
-            await User.adicionaAssistido(perfil, id_filme).then(resposta=>{
-                console.log(resposta)
+            User.adicionaAssistido(perfil, id_filme).then(resposta=>{
                 this.listarFilmes()
+            }).catch(e=>{
+                console.log(e)
             })
         },
         async logout(){
